@@ -1,38 +1,52 @@
-import keyConceptsImage from './assets/images/key-concepts.png';
-import componentsImage from './assets/images/components.png';
-import stateImage from './assets/images/state.png';
-import eventsImage from './assets/images/events.png';
-import Header from "./Header";
-import ConceptList from "./ConceptList";
+import React, { useState } from 'react';
 
-const concepts = [
+import NewExpense from './components/NewExpense/NewExpense';
+import Expenses from './components/Expenses/Expenses';
+
+const DUMMY_EXPENSES = [
   {
-    title: 'Components',
-    image: componentsImage,
-    description:
-      'Components let you split the UI into independent, reusable pieces, and think about each piece in isolation. Components can receive data via props, and they can render dynamic output using JSX.',
+    id: 'e1',
+    title: 'Toilet Paper',
+    amount: 94.12,
+    date: new Date(2020, 7, 14),
+  },
+  { id: 'e2', title: 'New TV', amount: 799.49, date: new Date(2021, 2, 12) },
+  {
+    id: 'e3',
+    title: 'Car Insurance',
+    amount: 294.67,
+    date: new Date(2021, 2, 28),
   },
   {
-    title: 'State',
-    image: stateImage,
-    description:
-      'State is data that may change over time. As it changes, the UI should be updated to reflect the updated data. Each component can maintain its own state and multiple components can share state.',
-  },
-  {
-    title: 'Events',
-    image: eventsImage,
-    description:
-      'Event handlers are added via props to (built-in) components. You pass functions as values to such event handlers to control which functions gets executed for which event.',
+    id: 'e4',
+    title: 'New Desk (Wooden)',
+    amount: 450,
+    date: new Date(2021, 5, 12),
   },
 ];
 
-function App() {
+const App = () => {
+  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
+
+  const addExpenseHandler = (expense) => {
+    setExpenses((prevExpenses) => {
+      return [expense, ...prevExpenses];
+    });
+  };
+
+  // return React.createElement(
+  //   'div',
+  //   {},
+  //   React.createElement('h2', {}, "Let's get started!"),
+  //   React.createElement(Expenses, { items: expenses })
+  // );
+
   return (
     <div>
-      <Header image={keyConceptsImage}/>
-      <ConceptList concepts={concepts} />
+      <NewExpense onAddExpense={addExpenseHandler} />
+      <Expenses items={expenses} />
     </div>
   );
-}
+};
 
 export default App;
